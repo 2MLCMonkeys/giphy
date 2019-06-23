@@ -6,9 +6,11 @@ var buttonDiv = $("#buttons-container");
 var resultsDiv = $("#data-result");
 var userInput = $("#user-input");
 var submitButton = $("#user-submit");
+var pickedReaction = $(".reactions");
+
 
 //buttons displayed on load
-//$(document).ready(function () {
+$(document).ready(function () {
     for (var i = 0; i < topics.length; i++) {
         var newButton = $("<button>");
         newButton.html(topics[i]);
@@ -17,8 +19,35 @@ var submitButton = $("#user-submit");
         newButton.attr("id", "r" + i);
         buttonDiv.append(newButton);
     }
-//});
+});
 
+//on click drawing AJAX giphy query
+pickedReaction.on("click", function(){
+    var clickedReaction = $(this).attr("value");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +clickedReaction+ "&api_key=fV8e2q8TyrpgJ53QMy8id3VjWkURM40e&limit=10";
+
+    console.log(queryURL);
+
+    //AJAX request
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    })
+    then(function(response){
+        console.log(response);
+        var results = response.data;
+        for(var j = 0; j < results.length; j++){
+            if(results[j].rating !== "r" && results[j].rating !== "pg-13"){
+                var newDiv = $("<div>");
+                newDiv.html(`<p>Rating: ${results[j].rating}</p>
+                <img src=" ${results[j].images.fixed_height.url}>`);
+                resultsDiv.prepend(newDiv);
+            }
+        }
+    });
+});
+
+//creates all buttons in topics array
 function renewButtons() {
     buttonDiv.empty();
     for (var i = 0; i < topics.length; i++) {
@@ -31,8 +60,9 @@ function renewButtons() {
     }
 };
 
-var reaction = "";
+//on click function for submit button
 submitButton.on("click", function(event){
+    var reaction = "";
     event.preventDefault();
     reaction = userInput.val().trim();
     topics.push(reaction);
