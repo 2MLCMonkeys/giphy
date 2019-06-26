@@ -71,11 +71,22 @@ function renewButtons() {
 
 //on click function for submit button
 submitButton.on("click", function(event){
-    var reaction = "";
+    var reaction = '';
+
+    /// if statement to check for same variable in array 
+
     event.preventDefault();
     reaction = userInput.val().trim();
-    topics.push(reaction);
-    renewButtons();
+    var isDuplicate = topics.includes(reaction);
+
+    if(!isDuplicate && reaction !== ""){
+        topics.push(reaction);
+        renewButtons();
+    }
+    else{
+        console.log("ERROR");
+    }
+
 })
 
 //click listener to all dynamically created buttons

@@ -19,6 +19,7 @@ body{
     border-color: #ff1a81;
     border-radius: 10px;
     border-width: 7px;
+    margin-bottom: 100px;
 }
 
 #buttons-container{
@@ -40,6 +41,13 @@ body{
     width: 50%;
     margin-bottom: 12px;
     text-align: center;
+}
+
+.gif{
+    border-radius: 20px;
+    border-style: groove;
+    border-width: 20px;
+    border-color: #c70028;
 }
 
 #input-field{
